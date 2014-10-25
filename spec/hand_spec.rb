@@ -71,5 +71,9 @@ describe "Hand" do
 		it 'can find straight flush' do
 			expect(Hand.new("Ac 2c 3c 4c 5c 3d Td").best_hand).to eq(:straight_flush)
 		end
+
+		it 'does not falsely identify straight flush if straight and flush are not same 5 cards' do
+			expect(Hand.new("Ac 2c 3c 4c 5d Tc Td").best_hand).to eq(:flush)
+		end
 	end
 end
