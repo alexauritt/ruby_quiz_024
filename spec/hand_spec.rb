@@ -44,8 +44,16 @@ describe "Hand" do
 			expect(Hand.new("Ac Ad Ah 3s 6c 7d Td").best_hand).to eq(:three_kind)
 		end
 
-		it 'can find a straight' do
+		it 'can find a low straight' do
 			expect(Hand.new("Ac 2d 3h 4s 5c 7d Td").best_hand).to eq(:straight)
+		end
+
+		it 'can find a mid straight' do
+			expect(Hand.new("Ac 7d 6h Js 5s 8d 9d").best_hand).to eq(:straight)
+		end
+
+		it 'can find a high straight' do
+			expect(Hand.new("Ac 2d Qh Js 5s Kd Td").best_hand).to eq(:straight)
 		end
 
 		it 'can find a flush' do
