@@ -52,15 +52,11 @@ class Hand
 		end
 
 		def self.has_four_of_a_kind?(cards)
-			card_values = cards.map {|c| c[0] }
-			grouped = card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
-			grouped.select {|card_value, count| count == 4}.length > 0
+			group_by_value(cards).select {|card_value, count| count == 4}.length > 0
 		end
-		
 
 		def self.has_full_house?(cards)
-			card_values = cards.map {|c| c[0] }
-			grouped = card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
+			grouped = group_by_value(cards)
 			more_than_one_pair = grouped.select {|card_value, count| count >= 2}.length > 1
 			has_three_of_a_kind?(cards) && more_than_one_pair		
 		end
@@ -79,20 +75,21 @@ class Hand
 		end
 
 		def self.has_three_of_a_kind?(cards)
-			card_values = cards.map {|c| c[0] }
-			grouped = card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
-			grouped.select {|card_value, count| count == 3}.length > 0
+			group_by_value(cards).select {|card_value, count| count == 3}.length > 0
 		end
 
 		def self.has_two_pair?(cards)
-			card_values = cards.map {|c| c[0] }
-			grouped = card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
-			grouped.select {|card_value, count| count == 2}.length > 1
+			group_by_value(cards).select {|card_value, count| count == 2}.length > 1
 		end
 
 		def self.has_single_pair?(cards)
 			card_values = cards.map {|c| c[0] }
 			card_values.length - 1 == card_values.uniq.length
+		end
+
+		def self.group_by_value(cards)
+			card_values = cards.map {|c| c[0] }
+			card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
 		end
 	end
 
