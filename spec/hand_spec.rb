@@ -24,6 +24,25 @@ describe "Hand" do
 		it 'should be false if hand contains any duplicates' do
 			expect(Hand.new("Ac 2c 6d Ac 6s 6h 9c").valid?).to be_falsey
 		end
+	end
 
+	describe "best_hand" do
+		it 'can identify high card' do
+			expect(Hand.new("Ac 2d 3h 5s 6c 7d Td").best_hand).to eq(:high_card)
+		end
+
+		it 'can identify pair' do
+			expect(Hand.new("Ac Ad 3h 5s 6c 7d Td").best_hand).to eq(:pair)
+		end
+
+		it 'can identify two pair' do
+			expect(Hand.new("Ac Ad 3h 3s 6c 7d Td").best_hand).to eq(:two_pair)
+			expect(Hand.new("Ac Ad 3h 3s 6c 6d Td").best_hand).to eq(:two_pair)
+		end
+
+		it 'can identiy three of a kind' do
+			expect(Hand.new("Ac Ad Ah 3s 6c 7d Td").best_hand).to eq(:three_kind)
+			expect(Hand.new("Ac Ad Ah 3s 3c 3d Td").best_hand).to eq(:three_kind)
+		end
 	end
 end
