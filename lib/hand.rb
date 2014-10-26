@@ -1,9 +1,6 @@
 require_relative 'folded_hand' 
 
 class Hand
-	HANDS = [:straight_flush, :four_kind, :full_house, :flush, :straight,
-		:three_kind, :two_pair, :pair, :high_card]
-	
 	def initialize(hand_string)
 		@cards = hand_string.split
 	end
@@ -17,7 +14,7 @@ class Hand
 	end
 
 	def best_hand
-		@best_hand ||= BestPlayingHandFinder.perform(@cards)
+		@best_hand ||= find_best_hand
 	end
 
 	def errors
@@ -25,23 +22,22 @@ class Hand
 	end
 
 	private
-	class BestPlayingHandFinder
-		def self.perform(cards)
-			best_hand = FoldedHand.new			
-			unless folded? cards
-				cards.combination(5).to_a.each do |combination|
-					new_hand = PlayingHandBuilder.build(combination)
-					best_hand = new_hand if new_hand > best_hand
-				end
-			end
-			best_hand
-		end
 
-		def self.folded?(cards)
-			cards.length < 7
+	def find_best_hand
+		@best_hand = FoldedHand.new			
+		unless folded?
+			@cards.combination(5).to_a.each do |combination|
+				new_hand = PlayingHandBuilder.build(combination)
+				@best_hand = new_hand if new_hand > @best_hand
+			end
 		end
+		@best_hand
 	end
 
+	def folded?
+		@cards.length < 7
+	end
+	
 	def validate_hand_size
 		@errors << "Unnacceptable hand size: #{@cards.length}" unless @cards.length.between?(2,8)
 	end

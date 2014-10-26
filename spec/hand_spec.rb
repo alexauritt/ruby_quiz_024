@@ -1,6 +1,19 @@
 require 'hand.rb'
 
 describe "Hand" do
+
+	describe 'find_best_hand' do
+		let(:cards) { "As 2c 3s 4d 5c 7d 8h"}
+		
+		it 'should delegate to PlayingHandBuilder 21 times' do
+			allow(PlayingHandBuilder).to receive(:build).and_return(FoldedHand.new)
+			
+			Hand.new(cards).best_hand
+			
+			expect(PlayingHandBuilder).to have_received(:build).exactly(21).times
+		end
+	end
+	
 	describe "valid?" do
 		it 'should be true if all cards are valid' do
 			expect(Hand.new("Ac Th").valid?).to be_truthy
