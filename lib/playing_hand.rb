@@ -1,15 +1,23 @@
 class PlayingHand
 	attr_reader :card
 	def method_missing(meth, *args)
-		if Numeric.respond_to?(meth) && args.length == 1 && args.first.kind_of?(PlayingHand)
-			self.hand_ranking.send(meth, args.first.hand_ranking)
-		else
+		acceptable_comparison?(meth, *args) ? 
+			self.hand_ranking.send(meth, args.first.hand_ranking) :
 			super
-		end
 	end
 
 	def ==(other_playing_hand)
 		self.hand_ranking == other_playing_hand.hand_ranking
+	end
+
+	def !=(other_playing_hand)
+		self.hand_ranking != other_playing_hand.hand_ranking
+	end
+
+	private
+	def acceptable_comparison?(meth_sym, *args)
+		[:>, :<, :>=, :<=].include?(meth_sym) &&
+			args.length == 1 && args.first.kind_of?(PlayingHand)
 	end
 
 	def hand_ranking
