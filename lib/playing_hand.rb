@@ -1,6 +1,9 @@
 class PlayingHand
 	def >(other_playing_hand)
-		raise ArgumentError unless other_playing_hand.kind_of?(PlayingHand)
+		unless other_playing_hand.kind_of?(PlayingHand)
+			raise ArgumentError, "Excpected instance of playing hand but received: #{other_playing_hand}" 
+		end
+		
 		self.hand_ranking > other_playing_hand.hand_ranking
 	end
 	# attr_reader :card

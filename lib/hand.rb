@@ -1,3 +1,5 @@
+require_relative 'folded_hand' 
+
 class Hand
 	SUITS = ['c','d','h','s']
 	VALUES = ['A','2','3','4','5','6','7','8','9','T','J','Q','K']
@@ -32,7 +34,8 @@ class Hand
 			best_hand = FoldedHand.new			
 			unless folded? cards
 				cards.combination(5).to_a.each do |combination|
-					best_hand = PlayingHandBuilder.build(combination) > best_hand
+					new_hand = PlayingHandBuilder.build(combination)
+					best_hand = new_hand if new_hand > best_hand
 				end
 			end
 		end
