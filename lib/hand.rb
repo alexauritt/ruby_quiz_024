@@ -1,8 +1,6 @@
 require_relative 'folded_hand' 
 
 class Hand
-	SUITS = ['c','d','h','s']
-	VALUES = ['A','2','3','4','5','6','7','8','9','T','J','Q','K']
 	HANDS = [:straight_flush, :four_kind, :full_house, :flush, :straight,
 		:three_kind, :two_pair, :pair, :high_card]
 	
@@ -87,7 +85,7 @@ class Hand
 		end
 
 		def self.has_straight?(cards)
-			sorted_indexes = cards.map {|c| VALUES.find_index c[0] }.uniq.sort
+			sorted_indexes = cards.map {|c| Card::VALUES.find_index c[0] }.uniq.sort
 			return true if sorted_indexes.size > 4 && (sorted_indexes[4] - sorted_indexes[0] == 4)
 			return true if sorted_indexes.size > 5 && (sorted_indexes[5] - sorted_indexes[1] == 4)
 			return true if sorted_indexes.size > 6 && (sorted_indexes[6] - sorted_indexes[2] == 4)
@@ -96,7 +94,7 @@ class Hand
 		end
 
 		def self.broadway_straight?(cards)
-			sorted_indexes = cards.map {|c| VALUES.find_index c[0] }.uniq.sort
+			sorted_indexes = cards.map {|c| Card::VALUES.find_index c[0] }.uniq.sort
 			count = sorted_indexes.count
 			top = sorted_indexes.last
 			count >= 5 && sorted_indexes.first == 0 && top == 12 && sorted_indexes[count - 4] == 9
@@ -126,7 +124,7 @@ class Hand
 	end
 
 	def validate_all_cards
-		bad_cards = @cards.select {|c| !VALUES.include?(c[0]) || !SUITS.include?(c[1])}
+		bad_cards = @cards.select {|c| !Card::VALUES.include?(c[0]) || !Card::SUITS.include?(c[1])}
 		bad_cards.each { |c| @errors.push("#{c} is invalid card") }
 	end
 
