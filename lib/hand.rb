@@ -18,6 +18,7 @@ class Hand
 
 	def best_hand
 		HandEvaluator.evaluate(@cards)
+		# @best_hand ||= BestPlayingHandFinder.perform(cards)
 	end
 
 	def errors
@@ -25,6 +26,22 @@ class Hand
 	end
 
 	private
+	class BestPlayingHandFinder
+		
+		def self.perform(cards)
+			best_hand = FoldedHand.new			
+			unless folded? cards
+				cards.combination(5).to_a.each do |combination|
+					best_hand = PlayingHandBuilder.build(combination) > best_hand
+				end
+			end
+		end
+
+		def self.folded?(cards)
+			cards.length < 7
+		end
+
+	end
 	class HandEvaluator
 		def self.evaluate(cards)
 			if has_straight_flush?(cards)
