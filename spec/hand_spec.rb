@@ -6,7 +6,7 @@ describe "Hand" do
 		let(:cards) { "As 2c 3s 4d 5c 7d 8h"}
 		
 		it 'should delegate to PlayingHandBuilder 21 times' do
-			allow(PlayingHandBuilder).to receive(:build).and_return(FoldedHand.new)
+			allow(PlayingHandBuilder).to receive(:build).and_return(Straight.new(cards.split))
 			
 			Hand.new(cards).best_hand
 			

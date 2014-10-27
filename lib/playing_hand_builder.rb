@@ -24,7 +24,6 @@ class PlayingHandBuilder
 	end
 
 	private
-
 		def self.straight_flush?(cards)
 			flush?(cards) && straight?(cards)
 		end
@@ -46,15 +45,15 @@ class PlayingHandBuilder
 		def self.straight?(cards)
 			sorted_indexes = cards.map {|c| Card::VALUES.find_index c[0] }.uniq.sort
 			return true if sorted_indexes.size == 5 && (sorted_indexes.last - sorted_indexes.first == 4)
-			return true if broadway_straight?(cards)
+			return true if low_straight?(cards)
 			false
 		end
 
-		def self.broadway_straight?(cards)
+		def self.low_straight?(cards)
 			sorted_indexes = cards.map {|c| Card::VALUES.find_index c[0] }.uniq.sort
 			count = sorted_indexes.count
 			top = sorted_indexes.last
-			count >= 5 && sorted_indexes.first == 0 && top == 12 && sorted_indexes[count - 4] == 9
+			count == 5 && sorted_indexes.first == 0 && top == 12 && sorted_indexes[3] == 3
 		end
 
 		def self.three_of_a_kind?(cards)
