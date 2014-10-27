@@ -13,5 +13,9 @@ class ThreeOfAKind < PlayingHand
 		sorted_card_list << remaining.sort.reverse
 		@cards = sorted_card_list.flatten
 	end
+	
+	def valid?
+	  three_of_a_kind?
+  end
 
 end

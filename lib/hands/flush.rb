@@ -3,4 +3,8 @@ class Flush < PlayingHand
 	def sort_cards_by_prominence!
 		@cards.sort! {|a,b| b.value <=> a.value }
 	end
+	
+	def valid?
+	  flush?
+  end
 end

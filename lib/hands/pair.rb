@@ -21,5 +21,9 @@ class Pair < PlayingHand
 		sorted_card_list << remaining
 		@cards = sorted_card_list.flatten
 	end
+	
+	def valid?
+	  single_pair?
+  end
 
 end

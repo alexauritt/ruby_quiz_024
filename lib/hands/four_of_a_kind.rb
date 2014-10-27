@@ -7,4 +7,8 @@ class FourOfAKind < PlayingHand
 			@cards.push @cards.shift
 		end
 	end
+	
+	def valid?
+	  four_kind?
+  end
 end

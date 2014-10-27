@@ -26,6 +26,16 @@ class PlayingHand
 		end
 	end
 	
+	def four_kind?
+		group_by_value.select {|card_value, count| count == 4}.length > 0
+	end
+	
+	def full_house?
+		grouped = group_by_value
+		more_than_one_pair = grouped.select {|card_value, count| count >= 2}.length > 1
+		three_of_a_kind? && more_than_one_pair		
+	end
+	
 	def flush?
 		@cards.map {|c| c.suit }.uniq.one?
 	end
@@ -42,6 +52,24 @@ class PlayingHand
 		count = sorted_indexes.count
 		top = sorted_indexes.last
 		count == 5 && sorted_indexes.first == 0 && top == 12 && sorted_indexes[3] == 3
+	end
+	
+	def three_of_a_kind?
+		group_by_value.select {|card_value, count| count == 3}.length > 0
+	end
+
+	def two_pair?
+		group_by_value.select {|card_value, count| count == 2}.length > 1
+	end
+
+	def single_pair?
+		card_values = @cards.map {|c| c.value }
+		card_values.length - 1 == card_values.uniq.length
+	end
+	
+	def group_by_value
+		card_values = @cards.map {|c| c.value }
+		card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
 	end
 	
 	

@@ -18,5 +18,9 @@ class TwoPair < PlayingHand
 		sorted_card_list.push((@cards - sorted_card_list).first)
 		@cards = sorted_card_list
 	end
+	
+	def valid?
+	  two_pair?
+  end
 
 end

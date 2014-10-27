@@ -9,5 +9,9 @@ class FullHouse < PlayingHand
 			@cards.push(@cards.shift)
 		end
 	end
+	
+	def valid?
+	  full_house?
+  end
 
 end
