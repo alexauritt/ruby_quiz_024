@@ -1,4 +1,4 @@
-require_relative 'folded_hand' 
+require_relative 'hands/folded_hand' 
 
 class Hand
 	def initialize(hand_string)

@@ -1,18 +1,19 @@
-require 'straight_flush'
-require 'four_of_a_kind'
-require 'full_house'
-require 'flush'
-require 'straight'
-require 'three_of_a_kind'
-require 'two_pair'
-require 'pair'
-require 'high_card'
+require 'hands/straight_flush'
+require 'hands/four_of_a_kind'
+require 'hands/full_house'
+require 'hands/flush'
+require 'hands/straight'
+require 'hands/three_of_a_kind'
+require 'hands/two_pair'
+require 'hands/pair'
+require 'hands/high_card'
 require 'card'
 
 class PlayingHandBuilder
 	def self.build(cards)
 		return FoldedHand.new unless cards.size == 5
-		return StraightFlush.new(cards) if straight_flush?(cards)
+    sf = StraightFlush.build(cards)
+    return sf if sf 
 		return FourOfAKind.new(cards) if four_kind?(cards)
 		return FullHouse.new(cards) if full_house?(cards)
 		return Flush.new(cards) if flush?(cards)
@@ -24,6 +25,7 @@ class PlayingHandBuilder
 	end
 
 	private
+	  #remove
 		def self.straight_flush?(cards)
 			flush?(cards) && straight?(cards)
 		end
@@ -38,17 +40,20 @@ class PlayingHandBuilder
 			three_of_a_kind?(cards) && more_than_one_pair		
 		end
 
+    # remove
 		def self.flush?(cards)
 			cards.map {|c| c[1] }.uniq.one?
 		end
 
+    # remove
 		def self.straight?(cards)
 			sorted_indexes = cards.map {|c| Card::VALUES.find_index c[0] }.uniq.sort
 			return true if sorted_indexes.size == 5 && (sorted_indexes.last - sorted_indexes.first == 4)
 			return true if low_straight?(cards)
 			false
 		end
-
+    
+    #remove
 		def self.low_straight?(cards)
 			sorted_indexes = cards.map {|c| Card::VALUES.find_index c[0] }.uniq.sort
 			count = sorted_indexes.count

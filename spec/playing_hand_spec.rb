@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-require 'playing_hand'
-require 'full_house'
-require 'four_of_a_kind'
-require 'straight_flush'
-require 'flush'
-require 'straight'
-require 'three_of_a_kind'
-require 'two_pair'
-require 'pair'
-require 'high_card'
+require 'hands/playing_hand'
+require 'hands/full_house'
+require 'hands/four_of_a_kind'
+require 'hands/straight_flush'
+require 'hands/flush'
+require 'hands/straight'
+require 'hands/three_of_a_kind'
+require 'hands/two_pair'
+require 'hands/pair'
+require 'hands/high_card'
 
 describe 'PlayingHand comparisons' do
 
@@ -73,10 +73,10 @@ describe 'PlayingHand comparisons' do
 	end
 
 	it 'should sort cards' do
-		expect(StraightFlush.new(royal_sf).cards).to eq(['Ac','Kc','Qc','Jc','Tc'])
+		expect(StraightFlush.new(royal_sf).cards.map(&:display)).to eq(['Ac','Kc','Qc','Jc','Tc'])
 		
 		four_aces = "6s 7c 6d 6h 6c".split
-		expect(FourOfAKind.new(four_aces).cards.last).to eq('7c')
+		expect(FourOfAKind.new(four_aces).cards.last.display).to eq('7c')
 		
 		cards = FullHouse.new(kings_full).cards
 		5.times do |i|
@@ -87,8 +87,8 @@ describe 'PlayingHand comparisons' do
 			end
 		end
 
-		expect(Straight.new("3s 6c 4d 5s 7c".split).cards).to eq(['7c','6c','5s','4d','3s'])
-		expect(Flush.new("3s 6s Ts 7s 4s".split).cards.last).to eq('3s')
+		expect(Straight.new("3s 6c 4d 5s 7c".split).cards.map(&:display)).to eq(['7c','6c','5s','4d','3s'])
+		expect(Flush.new("3s 6s Ts 7s 4s".split).cards.last.display).to eq('3s')
 		
 		three_kind_cards = ThreeOfAKind.new("7c 3s 7s 9c 7h".split).cards
 		
