@@ -35,12 +35,34 @@ describe 'PlayingHand comparisons' do
 				expect(FullHouse.new(aces_full) > FullHouse.new(kings_full)).to be_truthy 
 			}
 
-			pending 'compare flushes'
-			pending 'compare straights'
-			pending 'compare 3 of kind'
-			pending 'compare 2 pair'
-			pending 'compare pair'
-			pending 'compare high card'
+			let(:king_flush) { Flush.new("4s 8s Ks 2s 3s".split)}
+			let(:ten_flush) { Flush.new("5c Tc 2c 9c 3c".split)}
+			let(:ten_flush_hearts) { Flush.new("5h Th 2h 9h 3h".split)}
+			specify { expect(king_flush > ten_flush).to be_truthy }
+			specify { expect(ten_flush > king_flush).to be_falsey }
+			specify { expect(ten_flush > ten_flush_hearts).to be_falsey }
+			specify { expect(ten_flush_hearts > ten_flush).to be_falsey }
+			
+			let(:queen_straight) {Straight.new("Tc 9d Qc Jc 8c".split)}
+			let(:nine_straight) {Straight.new("5s 7c 6s 8s 9s".split)}
+			specify { expect(queen_straight > nine_straight).to be_truthy }
+			specify { expect(nine_straight > queen_straight).to be_falsey }
+
+			let(:three_kind_7) { ThreeOfAKind.new("7c 3s 7s 9c 7h".split) }
+			let(:three_kind_6) { ThreeOfAKind.new("6c 3s 6s 9c 6h".split) }
+			let(:three_kind_7_ace_kicker) { ThreeOfAKind.new("7c 3s 7s Ac 7h".split) }
+			specify { expect(three_kind_7 > three_kind_6).to be_truthy }
+			specify { expect(three_kind_6 > three_kind_7).to be_falsey }
+			specify { expect(three_kind_7_ace_kicker > three_kind_7).to be_truthy }
+			specify { expect(three_kind_7 > three_kind_7_ace_kicker).to be_falsey }
+
+			let(:nines_over_3s) { TwoPair.new("9d 3s 7s 9c 3h".split) }
+			let(:nines_over_3s_king_kicker) { TwoPair.new("9d 3s Ks 9c 3h".split) }
+			let(:nines_over_4s) { TwoPair.new("9d 4s 7s 9c 4h".split) }
+			specify { expect(nines_over_4s > nines_over_3s).to be_truthy }
+			specify { expect(nines_over_3s > nines_over_4s).to be_falsey }
+			specify { expect(nines_over_3s_king_kicker > nines_over_3s).to be_truthy }
+			specify { expect(nines_over_3s > nines_over_3s_king_kicker).to be_falsey }
 		end
 
 	end
@@ -66,7 +88,7 @@ describe 'PlayingHand comparisons' do
 		end
 
 		expect(Straight.new("3s 6c 4d 5s 7c".split).cards).to eq(['7c','6c','5s','4d','3s'])
-		expect(Flush.new("3s 6s Ts 7c 4s".split).cards.last).to eq('7c')
+		expect(Flush.new("3s 6s Ts 7s 4s".split).cards.last).to eq('3s')
 		
 		three_kind_cards = ThreeOfAKind.new("7c 3s 7s 9c 7h".split).cards
 		
@@ -91,7 +113,6 @@ describe 'PlayingHand comparisons' do
 				expect(two_pair_cards[i]).to have_card_value(7)
 			end
 		end
-
 
 		pair_cards = Pair.new("9d 3s Js 9c Kh".split).cards
 		
