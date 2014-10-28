@@ -1,7 +1,7 @@
-require 'cardeeoo'
+require 'cardser'
 
 describe "Hand" do
-	describe 'find_best_hand' do
+  describe 'find_best_hand' do
 		let(:cards) { "As 2c 3s 4d 5c 7d 8h"}
 		
 		it 'should delegate to PlayingHandBuilder 21 times' do
@@ -13,6 +13,26 @@ describe "Hand" do
 		end
 	end
 	
+	describe "comparing hands" do
+    let(:full_boat) { Hand.new("Ac 2c 6d Ad 6s 6h 9c") }
+	  let(:quick_fold) { Hand.new('Ad 3s') }
+	  let(:folded) { Hand.new("3c 6d 2s Th") }
+		specify { expect(folded < full_boat).to be_truthy }
+		specify { expect(full_boat > folded ).to be_truthy }
+  end
+  
+  describe "to_s" do
+    let(:full_boat) { Hand.new("Ac 2c 6d Ad 6s 6h 9c") }
+    specify { expect(full_boat.to_s).to eq("Ac 2c 6d Ad 6s 6h 9c (FullHouse)")}
+  end
+
+  describe 'new' do
+    it 'should be raise if hand contains an invalid card' do
+			expect { Hand.new("Ae Th") }.to raise_error(ArgumentError)
+			expect { Hand.new("1c 6d 2s Th") }.to raise_error(ArgumentError)
+		end
+  end
+	
 	describe "valid?" do
 		it 'should be true if all cards are valid' do
 			expect(Hand.new("Ac Th").valid?).to be_truthy
@@ -20,17 +40,12 @@ describe "Hand" do
 			expect(Hand.new("Ac 2c 6d Ad 6s 6h 9c").valid?).to be_truthy
 		end
 
-		it 'should be false if hand contains an invalid card' do
-			expect(Hand.new("Ae Th").valid?).to be_falsey
-			expect(Hand.new("1c 6d 2s Th").valid?).to be_falsey
-		end
-
 		it 'should be false if hand contains less than two cards' do
 			expect(Hand.new("Ac").valid?).to be_falsey
 		end
 
 		it 'should be false if hand contains more than seven cards' do
-			expect(Hand.new("Ac 1c 6d 2s Th 6s 6h 9c").valid?).to be_falsey
+			expect(Hand.new("Ac Ac 6d 2s Th 6s 6h 9c").valid?).to be_falsey
 		end
 
 		it 'should be false if hand contains any duplicates' do

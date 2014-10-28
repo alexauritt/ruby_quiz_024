@@ -1,4 +1,4 @@
-require 'cardeeoo'
+require 'cardser'
 require 'spec_helper'
 
 describe 'PlayingHand comparisons' do
@@ -8,6 +8,10 @@ describe 'PlayingHand comparisons' do
   let(:four_kings) { "Ks Kc Ad Kd Kh".split}
   let(:aces_full) { "As 3d Ac Ad 3s".split}
   let(:kings_full) { "Ks Kc Ad Kd As".split}
+
+  describe "to_s" do
+    specify { expect(StraightFlush.new(sf).to_s).to eq("6s 5s 4s 3s 2s (StraightFlush)") }
+  end
 
   describe ">" do
     context "by hand rank" do

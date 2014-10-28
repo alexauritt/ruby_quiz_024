@@ -1,5 +1,7 @@
 class PlayingHand
   include Comparable
+  include CardConvertible
+  
   attr_reader :cards
 
   def initialize(cards = [])
@@ -15,10 +17,15 @@ class PlayingHand
 
   def <=>(other_playing_hand)
     return 1 if other_playing_hand.nil?
-    raise ArgumentError, "a Card can only be compared to another Card" unless other_playing_hand.is_a?(PlayingHand)
+    raise ArgumentError, "a PlayingHand can only be compared to another PlayingHand" unless other_playing_hand.is_a?(PlayingHand)
     compare_hand_rank(other_playing_hand) || compare_card_values(other_playing_hand)
   end
+  
+  def to_s
+    @cards.map(&:display).join(" ").concat(" (#{self.class.to_s})")
+  end
 
+  private
   def four_kind?
     group_by_value.select {|card_value, count| count == 4}.length > 0
   end
@@ -66,12 +73,6 @@ class PlayingHand
   end
 
   private
-  def convert_strings_to_cards_if_necessary!
-    if @cards.first.is_a? String
-      @cards = @cards.map { |card_string| Card.new(card_string) }
-    end
-  end
-
   def compare_hand_rank(other_playing_hand)
     comparison = self.hand_ranking <=> other_playing_hand.hand_ranking
     comparison == 0 ? false : comparison

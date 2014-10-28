@@ -1,4 +1,4 @@
-require 'cardeeoo'
+require 'cardser'
 
 describe 'PlayingHandBuilder' do
   it 'should build a straight flush' do

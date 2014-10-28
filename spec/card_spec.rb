@@ -1,4 +1,4 @@
-require 'cardeeoo'
+require 'cardser'
 
 describe 'Card' do
   describe 'bad initialization' do
