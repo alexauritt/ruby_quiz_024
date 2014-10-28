@@ -63,8 +63,7 @@ class PlayingHand
 		card_values = @cards.map {|c| c.value }
 		card_values.each_with_object(Hash.new(0)) { |card_val,counts| counts[card_val] += 1 }
 	end
-	
-	
+		
 	private
   def convert_strings_to_cards_if_necessary!
     if @cards.first.is_a? String
@@ -78,13 +77,13 @@ class PlayingHand
   end
   
 	def compare_card_values(other_playing_hand)
-		5.times do |i|
-			card_value = @cards[i].value
-			other_card_value = other_playing_hand.cards[i].value
-			comparison = card_value <=> other_card_value
-      return comparison unless comparison == 0
-		end
-		0
+    hand_values = @cards.map(&:value)
+    other_hand_values = other_playing_hand.cards.map(&:value)
+    hand_values.each_with_index do |value, index|
+      comparison = value <=> other_hand_values[index]
+      return comparison unless comparison == 0	    
+    end
+    0
 	end
 	
   def valid?
