@@ -1,5 +1,3 @@
-require_relative 'hands/folded_hand' 
-
 class Hand
 	def initialize(hand_string)
 		@cards = hand_string.split
@@ -24,7 +22,7 @@ class Hand
 	private
 
 	def find_best_hand
-		@best_hand = FoldedHand.new			
+		@best_hand = nil
 		unless folded?
 			@cards.combination(5).to_a.each do |combination|
 				new_hand = PlayingHandBuilder.build(combination)

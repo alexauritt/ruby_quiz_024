@@ -1,7 +1,6 @@
-require 'hand.rb'
+require 'cardeeoo'
 
 describe "Hand" do
-
 	describe 'find_best_hand' do
 		let(:cards) { "As 2c 3s 4d 5c 7d 8h"}
 		

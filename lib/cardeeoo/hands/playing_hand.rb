@@ -14,7 +14,8 @@ class PlayingHand
   end
   
   def <=>(other_playing_hand)
-    raise ArgumentError, "a Card can only be compared to another Card" unless other_playing_hand.is_a? PlayingHand
+    return 1 if other_playing_hand.nil?
+    raise ArgumentError, "a Card can only be compared to another Card" unless other_playing_hand.is_a?(PlayingHand)
     compare_hand_rank(other_playing_hand) || compare_card_values(other_playing_hand)
   end
   
@@ -98,8 +99,3 @@ class PlayingHand
     # raise "attempt to call sort_cards_by_prominence! on abstract class"
 	end
 end
-
-
-
-
-

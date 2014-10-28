@@ -1,15 +1,16 @@
+require 'cardeeoo'
 require 'spec_helper'
-
-require 'hands/playing_hand'
-require 'hands/full_house'
-require 'hands/four_of_a_kind'
-require 'hands/straight_flush'
-require 'hands/flush'
-require 'hands/straight'
-require 'hands/three_of_a_kind'
-require 'hands/two_pair'
-require 'hands/pair'
-require 'hands/high_card'
+# 
+# require 'hands/playing_hand'
+# require 'hands/full_house'
+# require 'hands/four_of_a_kind'
+# require 'hands/straight_flush'
+# require 'hands/flush'
+# require 'hands/straight'
+# require 'hands/three_of_a_kind'
+# require 'hands/two_pair'
+# require 'hands/pair'
+# require 'hands/high_card'
 
 describe 'PlayingHand comparisons' do
 
@@ -39,6 +40,7 @@ describe 'PlayingHand comparisons' do
 			let(:ten_flush) { Flush.new("5c Tc 2c 9c 3c".split)}
 			let(:ten_flush_hearts) { Flush.new("5h Th 2h 9h 3h".split)}
 			specify { expect(king_flush > ten_flush).to be_truthy }
+			specify { expect(king_flush > nil).to be_truthy }
 			specify { expect(ten_flush > king_flush).to be_falsey }
 			specify { expect(king_flush < ten_flush).to be_falsey }
 			specify { expect(ten_flush < king_flush).to be_truthy }

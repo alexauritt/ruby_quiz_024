@@ -1,4 +1,4 @@
-require 'card.rb'
+require 'cardeeoo'
 
 describe 'Card' do
   describe 'bad initialization' do
