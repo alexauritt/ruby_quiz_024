@@ -1,5 +1,6 @@
 class PlayingHand
-	attr_reader :cards
+  include Comparable
+  attr_reader :cards
 
 	def initialize(cards = [])
 		@cards = cards
@@ -12,20 +13,11 @@ class PlayingHand
     instance.valid? ? instance : nil
   end
   
-	def >(other_playing_hand)
-		unless other_playing_hand.kind_of?(PlayingHand)
-			raise ArgumentError, "Excpected instance of playing hand but received: #{other_playing_hand}" 
-		end
-		
-		if superior_hand_rank?(other_playing_hand)
-			true
-		elsif inferior_hand_rank?(other_playing_hand)
-			false
-		else
-			superior_card_values?(other_playing_hand)
-		end
-	end
-	
+  def <=>(other_playing_hand)
+    raise ArgumentError, "a Card can only be compared to another Card" unless other_playing_hand.is_a? PlayingHand
+    compare_hand_rank(other_playing_hand) || compare_card_values(other_playing_hand)
+  end
+  
 	def four_kind?
 		group_by_value.select {|card_value, count| count == 4}.length > 0
 	end
@@ -79,23 +71,20 @@ class PlayingHand
       @cards = @cards.map { |card_string| Card.new(card_string) }
     end
   end
+
+  def compare_hand_rank(other_playing_hand)
+    comparison = self.hand_ranking <=> other_playing_hand.hand_ranking
+    comparison == 0 ? false : comparison
+  end
   
-	def superior_hand_rank?(other_playing_hand)
-		self.hand_ranking > other_playing_hand.hand_ranking
-	end
-
-	def inferior_hand_rank?(other_playing_hand)
-		self.hand_ranking < other_playing_hand.hand_ranking
-	end
-
-	def superior_card_values?(other_playing_hand)
+	def compare_card_values(other_playing_hand)
 		5.times do |i|
 			card_value = @cards[i].value
 			other_card_value = other_playing_hand.cards[i].value
-			return false if other_card_value > card_value
-			return true if card_value > other_card_value
+			comparison = card_value <=> other_card_value
+      return comparison unless comparison == 0
 		end
-		false
+		0
 	end
 	
   def valid?
@@ -107,7 +96,7 @@ class PlayingHand
 	end
 
 	def sort_cards_by_prominence!
-		# raise "attempt to call sort_cards_by_prominence! on abstract class"
+    # raise "attempt to call sort_cards_by_prominence! on abstract class"
 	end
 end
 

@@ -40,6 +40,11 @@ describe 'PlayingHand comparisons' do
 			let(:ten_flush_hearts) { Flush.new("5h Th 2h 9h 3h".split)}
 			specify { expect(king_flush > ten_flush).to be_truthy }
 			specify { expect(ten_flush > king_flush).to be_falsey }
+			specify { expect(king_flush < ten_flush).to be_falsey }
+			specify { expect(ten_flush < king_flush).to be_truthy }
+			specify { expect(king_flush <= ten_flush).to be_falsey }
+			specify { expect(ten_flush <= king_flush).to be_truthy }
+
 			specify { expect(ten_flush > ten_flush_hearts).to be_falsey }
 			specify { expect(ten_flush_hearts > ten_flush).to be_falsey }
 			
