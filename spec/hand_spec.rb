@@ -39,6 +39,10 @@ describe "Hand" do
 	end
 
 	describe "best_hand" do
+		it 'can identify a folded hand' do
+			expect(Hand.new("Ac 2d 3h").best_hand).to be_instance_of FoldedHand
+		end
+	  
 		it 'can identify high card' do
 			expect(Hand.new("Ac 2d 3h 5s 6c 7d Td").best_hand).to be_instance_of HighCard
 		end

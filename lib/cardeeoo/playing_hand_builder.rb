@@ -1,6 +1,6 @@
 class PlayingHandBuilder
-	def self.build(cards)
-		return FoldedHand.new unless cards.size == 5
+  def self.build(cards)
+    return FoldedHand.new(cards) unless cards.size == 5
     StraightFlush.build(cards) || 
     FourOfAKind.build(cards) ||
     FullHouse.build(cards) ||
@@ -9,6 +9,6 @@ class PlayingHandBuilder
     ThreeOfAKind.build(cards) ||
     TwoPair.build(cards) ||
     Pair.build(cards)  ||
-		HighCard.build(cards)
-	end
+    HighCard.build(cards)
+  end
 end
