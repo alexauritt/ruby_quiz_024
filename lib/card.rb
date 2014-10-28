@@ -1,4 +1,5 @@
 class Card
+  include Comparable
 	SUITS = ['c','d','h','s']
 	VALUES = ['2','3','4','5','6','7','8','9','T','J','Q','K','A']
   attr_reader :suit
@@ -23,5 +24,4 @@ class Card
     raise ArgumentError, "a Card can only be compared to another Card" unless other.is_a? Card
     value <=> other.value
   end
-    
 end
