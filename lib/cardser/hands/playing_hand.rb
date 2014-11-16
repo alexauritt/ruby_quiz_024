@@ -24,7 +24,7 @@ module Cardser
       end
       
       def to_s
-        @cards.map(&:display).join(" ").concat(" (#{self.class.to_s})")
+        @cards.map(&:display).join(" ").concat(" (#{self.class.name.split('::').last})")
       end
 
       private

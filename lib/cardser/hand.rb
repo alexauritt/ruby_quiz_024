@@ -39,11 +39,11 @@ module Cardser
     def find_best_hand
       unless folded?
         @cards.combination(5).to_a.each do |combination|
-          new_hand = PlayingHandBuilder.build(combination)
+          new_hand = Cardser::PlayingHandBuilder.build(combination)
           @best_hand = new_hand if new_hand > @best_hand
         end
       end
-      @best_hand || FoldedHand.new(@cards)
+      @best_hand || Cardser::Hands::FoldedHand.new(@cards)
     end
 
     def folded?
